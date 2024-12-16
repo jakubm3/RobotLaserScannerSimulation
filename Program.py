@@ -21,6 +21,12 @@ class Line:
         x2, y2 = self.end.x, self.end.y
         step_x = 1 if x1 < x2 else -1
         step_y = 1 if y1 < y2 else -1
+
+        if distance_x == 0:
+            for y in range(y1, y2+step_y, step_y):
+                self.points.append((x1, y))
+            return self.points
+
         inverted_axes = distance_y > distance_x
         if inverted_axes:
             distance_x, distance_y = distance_y, distance_x
