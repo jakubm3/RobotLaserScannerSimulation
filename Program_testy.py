@@ -24,3 +24,12 @@ def test_line_points():
 def test_line_points_not_Point():
     with pytest.raises(TypeError):
         Line(1, "a")
+
+
+def test_line_bresenham():
+    point1 = Point(1, 1)
+    point2 = Point(5, 3)
+    line = Line(point1, point2)
+    line_points = line.LinePoints()
+    assert line_points == [(1, 1), (2, 2), (3, 2),
+                           (4, 2), (5, 3)]
