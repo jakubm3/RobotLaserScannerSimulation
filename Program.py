@@ -8,6 +8,8 @@ class Point:
 
 class Line:
     def __init__(self, start: Point, end: Point):
+        if not isinstance(start, Point) or not isinstance(end, Point):
+            raise TypeError("Line must be defined by two points")
         self.start = start
         self.end = end
         self.points = []
