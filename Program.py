@@ -15,43 +15,28 @@ class Line:
         self.points = []
 
     def LinePoints(self):
-        swapped_axes = False
-        distance_x = self.end.x - self.start.x
-        distance_y = self.end.y - self.start.y
+        distance_x = abs(self.end.x - self.start.x)
+        distance_y = abs(self.end.y - self.start.y)
         x1, y1 = self.start.x, self.start.y
         x2, y2 = self.end.x, self.end.y
-        if distance_x == 0:
-            slope = 0
-        slope = distance_y / distance_x
-
-        if abs(distance_y) > abs(distance_x):
-            x1, y1, x2, y2 = y1, x1, y2, x2
+        step_x = 1 if x1 < x2 else -1
+        step_y = 1 if y1 < y2 else -1
+        inverted_axes = distance_y > distance_x
+        if inverted_axes:
             distance_x, distance_y = distance_y, distance_x
-            if distance_x == 0:
-                slope = 0
-            slope = distance_y / distance_x
-            swapped_axes = True
-
-        if x1 > x2:
-            x1, x2 = x2, x1
-            y1, y2 = y2, y1
-
-        error = 0.0
+        error = 2 * distance_y - distance_x
         y0 = y1
 
-        for x in range(x1, x2+1):
-            if swapped_axes:
+        for x in range(x1, x2+step_x, step_x):
+            if inverted_axes:
                 self.points.append((y0, x))
             else:
                 self.points.append((x, y0))
-
-            error += slope
-
-            if abs(error) >= 0.5:
-                y0 += 1 if y2 > y1 else -1
-                error -= 1.0 if error > 0 else -1.0
-
-        return self.points[::-1] if swapped_axes else self.points
+            if error > 0:
+                y0 += step_y
+                error -= 2 * distance_x
+            error += 2 * distance_y
+        return self.points
 
 
 def LoadImage(image_path):
@@ -72,6 +57,3 @@ def FindObstacle(image, line):
 
 def FindLineEndingPoints(x1, y1, angle):
     pass
-
-line = Line(Point(1, 1), Point(5, 3))
-print(line.LinePoints())

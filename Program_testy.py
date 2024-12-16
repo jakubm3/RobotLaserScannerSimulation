@@ -31,5 +31,14 @@ def test_line_bresenham():
     point2 = Point(5, 3)
     line = Line(point1, point2)
     line_points = line.LinePoints()
-    assert line_points == [(1, 1), (2, 2), (3, 2),
+    assert line_points == [(1, 1), (2, 1), (3, 2),
                            (4, 2), (5, 3)]
+
+
+def test_line_bresenham_horizontal():
+    point1 = Point(1, 1)
+    point2 = Point(5, 1)
+    line = Line(point1, point2)
+    line_points = line.LinePoints()
+    assert line_points == [(1, 1), (2, 1), (3, 1),
+                           (4, 1), (5, 1)]
