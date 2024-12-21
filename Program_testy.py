@@ -119,3 +119,13 @@ def test_load_parameters_out_of_range():
 def test_load_parameters_not_enough_data():
     with pytest.raises(ValueError):
         LoadParameters("Pliki testowe/brak_danych.txt")
+
+
+def test_load_image_wrong_extension():
+    with pytest.raises(ValueError):
+        LoadParameters("Pliki testowe/wrong_extension.jpg")
+
+
+def test_load_parameters_wrong_extension():
+    with pytest.raises(ValueError):
+        LoadParameters("Pliki testowe/wrong_extension.txt")

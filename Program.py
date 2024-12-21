@@ -65,6 +65,8 @@ def LoadImage(image_path):
 
 
 def LoadParameters(file_path):
+    if not file_path.endswith(".txt"):
+        raise WrongExtensionError("Wrong file extension")
     with open(file_path, "r") as handle:
         values = tuple(handle.readline().split())
         if len(values) != 3:
