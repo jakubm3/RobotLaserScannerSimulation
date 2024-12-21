@@ -1,6 +1,11 @@
 from PIL import Image
 
 
+class WrongExtensionError(ValueError):
+    def __init__(self, message="Wrong file extension"):
+        super().__init__(message)
+
+
 class OutOfRangeError(ValueError):
     def __init__(self, message="Data out of range"):
         super().__init__(message)
@@ -54,8 +59,9 @@ class Line:
 
 
 def LoadImage(image_path):
-    if image_path.endswith(".png"):
-        return Image.open(image_path)
+    if not image_path.endswith(".png"):
+        raise WrongExtensionError("Wrong file extension")
+    return Image.open(image_path)
 
 
 def LoadParameters(file_path):
