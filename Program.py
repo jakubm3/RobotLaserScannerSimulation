@@ -88,9 +88,11 @@ def LoadParameters(file_path):
 
 
 def DrawLine(image, line):
+    width, height = image.size
     draw = ImageDraw.Draw(image)
     for point in line.LinePoints():
-        draw.point((point.x, point.y), fill="red")
+        if point.x in range(0, width+1) and point.y in range(0, height+1):
+            draw.point((point.x, point.y), fill="red")
     image.save("symulacja.png")
 
 

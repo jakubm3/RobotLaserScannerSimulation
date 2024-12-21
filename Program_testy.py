@@ -133,3 +133,28 @@ def test_load_image_wrong_extension():
 def test_load_parameters_wrong_extension():
     with pytest.raises(ValueError):
         LoadParameters("Pliki testowe/wrong_extension.txt")
+
+
+def test_drawline():
+    width, height = 320, 240
+    image = Image.new("RGB", (width, height), "white")
+    start = Point(20, 70)
+    end = Point(60, 50)
+    line = Line(start, end)
+    DrawLine(image, line)
+    pixels = image.load()
+    for point in line.LinePoints():
+        assert pixels[point.x, point.y] == (255, 0, 0)
+
+
+def test_drawline_out_of_bounds():
+    width, height = 320, 240
+    image = Image.new("RGB", (width, height), "white")
+    start = Point(-10, 50)
+    end = Point(110, 50)
+    line = Line(start, end)
+    DrawLine(image, line)
+    pixels = image.load()
+    for point in line.LinePoints():
+        if 0 <= point.x <= width and 0 <= point.y <= height:
+            assert pixels[point.x, point.y] == (255, 0, 0)
