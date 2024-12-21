@@ -1,3 +1,6 @@
+import os
+
+
 class Point:
     def __init__(self, x, y):
         if not isinstance(x, int) or not isinstance(y, int):
@@ -49,11 +52,14 @@ def LoadImage(image_path):
     pass
 
 
-def LoadParmeters(file_path):
-    pass
+def LoadParameters(file_path):
+    with open(file_path, "r") as handle:
+        x, y, angle = handle.readline().split()
+        x, y, angle = int(x), int(y), int(angle)
+    return x, y, angle
 
 
-def DrawLine(image, x1, y1, x2, y2):
+def DrawLine(image, line):
     pass
 
 
@@ -63,3 +69,6 @@ def FindObstacle(image, line):
 
 def FindLineEndingPoints(x1, y1, angle):
     pass
+
+
+print(LoadParameters("nazwy.txt"))
