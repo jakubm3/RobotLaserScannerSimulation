@@ -1,3 +1,6 @@
+from PIL import Image
+
+
 class OutOfRangeError(ValueError):
     def __init__(self, message="Data out of range"):
         super().__init__(message)
@@ -51,7 +54,8 @@ class Line:
 
 
 def LoadImage(image_path):
-    pass
+    if image_path.endswith(".png"):
+        return Image.open(image_path)
 
 
 def LoadParameters(file_path):
