@@ -55,8 +55,8 @@ def LoadImage(image_path):
 def LoadParameters(file_path):
     with open(file_path, "r") as handle:
         x, y, angle = handle.readline().split()
-        x, y, angle = int(x), int(y), int(angle)
-    return x, y, angle
+        starting_point = Point(int(x), int(y))
+    return starting_point, int(angle)
 
 
 def DrawLine(image, line):
