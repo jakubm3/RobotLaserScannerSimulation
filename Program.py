@@ -1,4 +1,4 @@
-from PIL import Image
+from PIL import Image, ImageDraw
 
 
 class WrongExtensionError(ValueError):
@@ -37,7 +37,7 @@ class Line:
 
         if distance_x == 0:
             for y in range(y1, y2+step_y, step_y):
-                self.points.append((x1, y))
+                self.points.append(Point(x1, y))
             return self.points
 
         inverted_axes = distance_y > distance_x
@@ -48,9 +48,9 @@ class Line:
 
         for x in range(x1, x2+step_x, step_x):
             if inverted_axes:
-                self.points.append((y0, x))
+                self.points.append(Point(y0, x))
             else:
-                self.points.append((x, y0))
+                self.points.append(Point(x, y0))
             if error > 0:
                 y0 += step_y
                 error -= 2 * distance_x
@@ -83,7 +83,10 @@ def LoadParameters(file_path):
 
 
 def DrawLine(image, line):
-    pass
+    draw = ImageDraw.Draw(image)
+    for point in line.LinePoints():
+        draw.point((point.x, point.y), fill="red")
+    image.save("symulacja.png")
 
 
 def FindObstacle(image, line):
@@ -92,3 +95,6 @@ def FindObstacle(image, line):
 
 def FindLineEndingPoints(x1, y1, angle):
     pass
+
+
+DrawLine(LoadImage("otoczenie.png"), Line(Point(20, 56), Point(130, 90)))
