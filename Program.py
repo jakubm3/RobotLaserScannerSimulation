@@ -1,4 +1,6 @@
-import os
+class OutOfRangeError(ValueError):
+    def __init__(self, message="Data out of range"):
+        super().__init__(message)
 
 
 class Point:
@@ -54,8 +56,17 @@ def LoadImage(image_path):
 
 def LoadParameters(file_path):
     with open(file_path, "r") as handle:
-        x, y, angle = handle.readline().split()
-        starting_point = Point(int(x), int(y))
+        values = tuple(handle.readline().split())
+        if len(values) != 3:
+            raise ValueError("Not enough data")
+        if (
+            int(values[0]) < 0 or int(values[0]) > 320 or
+            int(values[1]) < 0 or int(values[1]) > 240 or
+            int(values[2]) < 0 or int(values[2]) > 360
+        ):
+            raise OutOfRangeError("Data has to be within the range")
+        starting_point = Point(int(values[0]), int(values[1]))
+        angle = values[2]
     return starting_point, int(angle)
 
 
@@ -69,6 +80,3 @@ def FindObstacle(image, line):
 
 def FindLineEndingPoints(x1, y1, angle):
     pass
-
-
-print(LoadParameters("nazwy.txt"))
