@@ -18,6 +18,11 @@ class Point:
         self.x = x
         self.y = y
 
+    def __eq__(self, other):
+        if isinstance(other, Point):
+            return self.x == other.x and self.y == other.y
+        return False
+
 
 class Line:
     def __init__(self, start: Point, end: Point):
@@ -95,6 +100,3 @@ def FindObstacle(image, line):
 
 def FindLineEndingPoints(x1, y1, angle):
     pass
-
-
-DrawLine(LoadImage("otoczenie.png"), Line(Point(20, 56), Point(130, 90)))

@@ -1,5 +1,6 @@
 import pytest
-from Program import Point, Line, LoadParameters, OutOfRangeError
+from PIL import Image
+from Program import Point, Line, LoadParameters, OutOfRangeError, DrawLine
 
 
 def test_point_integer():
@@ -31,8 +32,8 @@ def test_line_bresenham():
     point2 = Point(5, 3)
     line = Line(point1, point2)
     line_points = line.LinePoints()
-    assert line_points == [(1, 1), (2, 1), (3, 2),
-                           (4, 2), (5, 3)]
+    assert line_points == [Point(1, 1), Point(2, 1), Point(3, 2),
+                           Point(4, 2), Point(5, 3)]
 
 
 def test_line_bresenham_horizontal():
@@ -40,8 +41,8 @@ def test_line_bresenham_horizontal():
     point2 = Point(5, 1)
     line = Line(point1, point2)
     line_points = line.LinePoints()
-    assert line_points == [(1, 1), (2, 1), (3, 1),
-                           (4, 1), (5, 1)]
+    assert line_points == [Point(1, 1), Point(2, 1), Point(3, 1),
+                           Point(4, 1), Point(5, 1)]
 
 
 def test_line_bresenham_vertical():
@@ -49,8 +50,8 @@ def test_line_bresenham_vertical():
     point2 = Point(1, 5)
     line = Line(point1, point2)
     line_points = line.LinePoints()
-    assert line_points == [(1, 1), (1, 2), (1, 3),
-                           (1, 4), (1, 5)]
+    assert line_points == [Point(1, 1), Point(1, 2), Point(1, 3),
+                           Point(1, 4), Point(1, 5)]
 
 
 def test_line_bresenham_shallow():
@@ -58,8 +59,8 @@ def test_line_bresenham_shallow():
     point2 = Point(7, 3)
     line = Line(point1, point2)
     line_points = line.LinePoints()
-    assert line_points == [(1, 1), (2, 1), (3, 2), (4, 2),
-                           (5, 2), (6, 3), (7, 3)]
+    assert line_points == [Point(1, 1), Point(2, 1), Point(3, 2), Point(4, 2),
+                           Point(5, 2), Point(6, 3), Point(7, 3)]
 
 
 def test_line_bresenham_reverse():
@@ -67,7 +68,8 @@ def test_line_bresenham_reverse():
     point2 = Point(1, 1)
     line = Line(point1, point2)
     line_points = line.LinePoints()
-    assert line_points == [(5, 5), (4, 4), (3, 3), (2, 2), (1, 1)]
+    assert line_points == [Point(5, 5), Point(4, 4), Point(3, 3),
+                           Point(2, 2), Point(1, 1)]
 
 
 def test_line_bresenham_vertical_reverse():
@@ -75,7 +77,8 @@ def test_line_bresenham_vertical_reverse():
     point2 = Point(1, 1)
     line = Line(point1, point2)
     line_points = line.LinePoints()
-    assert line_points == [(1, 5), (1, 4), (1, 3), (1, 2), (1, 1)]
+    assert line_points == [Point(1, 5), Point(1, 4), Point(1, 3),
+                           Point(1, 2), Point(1, 1)]
 
 
 def test_line_bresenham_single_point():
@@ -83,7 +86,7 @@ def test_line_bresenham_single_point():
     point2 = Point(1, 1)
     line = Line(point1, point2)
     line_points = line.LinePoints()
-    assert line_points == [(1, 1)]
+    assert line_points == [Point(1, 1)]
 
 
 def test_line_bresenham_horizontal_negative():
@@ -91,7 +94,8 @@ def test_line_bresenham_horizontal_negative():
     point2 = Point(1, 1)
     line = Line(point1, point2)
     line_points = line.LinePoints()
-    assert line_points == [(5, 1), (4, 1), (3, 1), (2, 1), (1, 1)]
+    assert line_points == [Point(5, 1), Point(4, 1), Point(3, 1),
+                           Point(2, 1), Point(1, 1)]
 
 
 def test_load_parameters():
