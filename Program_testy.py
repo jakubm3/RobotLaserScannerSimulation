@@ -222,3 +222,15 @@ def test_find_line_ending_points_135_degrees():
     angle = 135
     x2, y2 = FindLineEndingPoints(x1, y1, angle)
     assert (x2, y2) == (8, 92)
+
+
+def test_find_line_ending_points_angle_greater_than_360():
+    x1, y1 = 50, 50
+    angle = 450
+    x2, y2 = FindLineEndingPoints(x1, y1, angle)
+    assert (x2, y2) == (50, 110)
+
+
+def test_find_line_ending_points_negative_angle():
+    with pytest.raises(ValueError):
+        FindLineEndingPoints(50, 50, -10)
