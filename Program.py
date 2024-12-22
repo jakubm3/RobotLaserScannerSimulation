@@ -1,4 +1,5 @@
 from PIL import Image, ImageDraw
+import numpy as np
 
 
 class WrongExtensionError(ValueError):
@@ -97,7 +98,13 @@ def DrawLine(image, line):
 
 
 def FindObstacle(image, line):
-    pass
+    image_array = np.array(image)
+    height, width, _ = image_array.shape
+    for point in line.LinePoints():
+        if 0 <= point.x < width and 0 <= point.y < height:
+            if np.all(image_array[point.y, point.x] == [0, 0, 0]):
+                return point
+    return None
 
 
 def FindLineEndingPoints(x1, y1, angle):
