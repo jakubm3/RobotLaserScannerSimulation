@@ -116,5 +116,9 @@ def FindLineEndingPoints(x1, y1, angle, length=60):
         raise ValueError("Angle has to be positive")
     angle_rad = math.radians(angle)
     x2 = x1 + length * math.cos(angle_rad)
-    y2 = y1 + length * math.sin(angle_rad)
+    y2 = y1 - length * math.sin(angle_rad)
     return Point(round(x2), round(y2))
+
+
+def CalculateDistance(point1, point2):
+    return math.sqrt((point1.x - point2.x)**2 + (point1.y - point2.y)**2)
