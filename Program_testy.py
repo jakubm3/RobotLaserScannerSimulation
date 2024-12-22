@@ -195,7 +195,7 @@ def test_find_line_ending_points_90_degrees():
     angle = 90
     ending_point = FindLineEndingPoints(x1, y1, angle)
     x2, y2 = ending_point.x, ending_point.y
-    assert Point(x2, y2) == Point(50, 110)
+    assert Point(x2, y2) == Point(50, -10)
 
 
 def test_find_line_ending_points_180_degrees():
@@ -211,7 +211,7 @@ def test_find_line_ending_points_270_degrees():
     angle = 270
     ending_point = FindLineEndingPoints(x1, y1, angle)
     x2, y2 = ending_point.x, ending_point.y
-    assert Point(x2, y2) == Point(50, -10)
+    assert Point(x2, y2) == Point(50, 110)
 
 
 def test_find_line_ending_points_45_degrees():
@@ -219,7 +219,7 @@ def test_find_line_ending_points_45_degrees():
     angle = 45
     ending_point = FindLineEndingPoints(x1, y1, angle)
     x2, y2 = ending_point.x, ending_point.y
-    assert Point(x2, y2) == Point(92, 92)
+    assert Point(x2, y2) == Point(92, 8)
 
 
 def test_find_line_ending_points_135_degrees():
@@ -227,7 +227,7 @@ def test_find_line_ending_points_135_degrees():
     angle = 135
     ending_point = FindLineEndingPoints(x1, y1, angle)
     x2, y2 = ending_point.x, ending_point.y
-    assert Point(x2, y2) == Point(8, 92)
+    assert Point(x2, y2) == Point(8, 8)
 
 
 def test_find_line_ending_points_angle_greater_than_360():
@@ -235,7 +235,7 @@ def test_find_line_ending_points_angle_greater_than_360():
     angle = 450
     ending_point = FindLineEndingPoints(x1, y1, angle)
     x2, y2 = ending_point.x, ending_point.y
-    assert Point(x2, y2) == Point(50, 110)
+    assert Point(x2, y2) == Point(50, -10)
 
 
 def test_find_line_ending_points_negative_angle():
