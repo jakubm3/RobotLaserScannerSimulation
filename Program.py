@@ -112,4 +112,4 @@ def FindLineEndingPoints(x1, y1, angle):
     angle_rad = math.radians(angle)
     x2 = x1 + 60 * math.cos(angle_rad)
     y2 = y1 + 60 * math.sin(angle_rad)
-    return int(x2), int(y2)
+    return round(x2), round(y2)

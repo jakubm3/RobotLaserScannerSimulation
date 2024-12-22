@@ -1,7 +1,8 @@
 import pytest
 from PIL import Image
 from Program import (Point, Line, LoadParameters,
-                     OutOfRangeError, DrawLine, FindObstacle)
+                     OutOfRangeError, DrawLine, FindObstacle,
+                     FindLineEndingPoints)
 
 
 def test_point_integer():
@@ -179,3 +180,45 @@ def test_find_obstacle_not_found():
     line = Line(start_point, end_point)
     obstacle = FindObstacle(image, line)
     assert obstacle is None
+
+
+def test_find_line_ending_points_0_degrees():
+    x1, y1 = 50, 50
+    angle = 0
+    x2, y2 = FindLineEndingPoints(x1, y1, angle)
+    assert (x2, y2) == (110, 50)
+
+
+def test_find_line_ending_points_90_degrees():
+    x1, y1 = 50, 50
+    angle = 90
+    x2, y2 = FindLineEndingPoints(x1, y1, angle)
+    assert (x2, y2) == (50, 110)
+
+
+def test_find_line_ending_points_180_degrees():
+    x1, y1 = 50, 50
+    angle = 180
+    x2, y2 = FindLineEndingPoints(x1, y1, angle)
+    assert (x2, y2) == (-10, 50)
+
+
+def test_find_line_ending_points_270_degrees():
+    x1, y1 = 50, 50
+    angle = 270
+    x2, y2 = FindLineEndingPoints(x1, y1, angle)
+    assert (x2, y2) == (50, -10)
+
+
+def test_find_line_ending_points_45_degrees():
+    x1, y1 = 50, 50
+    angle = 45
+    x2, y2 = FindLineEndingPoints(x1, y1, angle)
+    assert (x2, y2) == (92, 92)
+
+
+def test_find_line_ending_points_135_degrees():
+    x1, y1 = 50, 50
+    angle = 135
+    x2, y2 = FindLineEndingPoints(x1, y1, angle)
+    assert (x2, y2) == (8, 92)
