@@ -95,7 +95,6 @@ def DrawLine(image, line):
     for point in line.LinePoints():
         if point.x in range(0, width+1) and point.y in range(0, height+1):
             draw.point((point.x, point.y), fill="red")
-    image.save("symulacja.png")
 
 
 def FindObstacle(image, line):
@@ -103,7 +102,7 @@ def FindObstacle(image, line):
     height, width, _ = image_array.shape
     for point in line.LinePoints():
         if 0 <= point.x < width and 0 <= point.y < height:
-            if np.all(image_array[point.y, point.x] == [0, 0, 0]):
+            if np.all(image_array[point.y, point.x][:3] == [0, 0, 0]):
                 return point
     return None
 
@@ -119,4 +118,3 @@ def FindLineEndingPoints(x1, y1, angle, length=60):
     x2 = x1 + length * math.cos(angle_rad)
     y2 = y1 + length * math.sin(angle_rad)
     return Point(round(x2), round(y2))
-
