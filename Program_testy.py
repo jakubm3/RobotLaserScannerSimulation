@@ -185,50 +185,57 @@ def test_find_obstacle_not_found():
 def test_find_line_ending_points_0_degrees():
     x1, y1 = 50, 50
     angle = 0
-    x2, y2 = FindLineEndingPoints(x1, y1, angle)
-    assert (x2, y2) == (110, 50)
+    ending_point = FindLineEndingPoints(x1, y1, angle)
+    x2, y2 = ending_point.x, ending_point.y
+    assert Point(x2, y2) == Point(110, 50)
 
 
 def test_find_line_ending_points_90_degrees():
     x1, y1 = 50, 50
     angle = 90
-    x2, y2 = FindLineEndingPoints(x1, y1, angle)
-    assert (x2, y2) == (50, 110)
+    ending_point = FindLineEndingPoints(x1, y1, angle)
+    x2, y2 = ending_point.x, ending_point.y
+    assert Point(x2, y2) == Point(50, 110)
 
 
 def test_find_line_ending_points_180_degrees():
     x1, y1 = 50, 50
     angle = 180
-    x2, y2 = FindLineEndingPoints(x1, y1, angle)
-    assert (x2, y2) == (-10, 50)
+    ending_point = FindLineEndingPoints(x1, y1, angle)
+    x2, y2 = ending_point.x, ending_point.y
+    assert Point(x2, y2) == Point(-10, 50)
 
 
 def test_find_line_ending_points_270_degrees():
     x1, y1 = 50, 50
     angle = 270
-    x2, y2 = FindLineEndingPoints(x1, y1, angle)
-    assert (x2, y2) == (50, -10)
+    ending_point = FindLineEndingPoints(x1, y1, angle)
+    x2, y2 = ending_point.x, ending_point.y
+    assert Point(x2, y2) == Point(50, -10)
 
 
 def test_find_line_ending_points_45_degrees():
     x1, y1 = 50, 50
     angle = 45
-    x2, y2 = FindLineEndingPoints(x1, y1, angle)
-    assert (x2, y2) == (92, 92)
+    ending_point = FindLineEndingPoints(x1, y1, angle)
+    x2, y2 = ending_point.x, ending_point.y
+    assert Point(x2, y2) == Point(92, 92)
 
 
 def test_find_line_ending_points_135_degrees():
     x1, y1 = 50, 50
     angle = 135
-    x2, y2 = FindLineEndingPoints(x1, y1, angle)
-    assert (x2, y2) == (8, 92)
+    ending_point = FindLineEndingPoints(x1, y1, angle)
+    x2, y2 = ending_point.x, ending_point.y
+    assert Point(x2, y2) == Point(8, 92)
 
 
 def test_find_line_ending_points_angle_greater_than_360():
     x1, y1 = 50, 50
     angle = 450
-    x2, y2 = FindLineEndingPoints(x1, y1, angle)
-    assert (x2, y2) == (50, 110)
+    ending_point = FindLineEndingPoints(x1, y1, angle)
+    x2, y2 = ending_point.x, ending_point.y
+    assert Point(x2, y2) == Point(50, 110)
 
 
 def test_find_line_ending_points_negative_angle():

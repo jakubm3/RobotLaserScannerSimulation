@@ -108,7 +108,7 @@ def FindObstacle(image, line):
     return None
 
 
-def FindLineEndingPoints(x1, y1, angle):
+def FindLineEndingPoints(x1, y1, angle, length=60):
     angle = int(angle)
     if angle > 360:
         round_angles = angle // 360
@@ -116,6 +116,7 @@ def FindLineEndingPoints(x1, y1, angle):
     elif angle < 0:
         raise ValueError("Angle has to be positive")
     angle_rad = math.radians(angle)
-    x2 = x1 + 60 * math.cos(angle_rad)
-    y2 = y1 + 60 * math.sin(angle_rad)
-    return round(x2), round(y2)
+    x2 = x1 + length * math.cos(angle_rad)
+    y2 = y1 + length * math.sin(angle_rad)
+    return Point(round(x2), round(y2))
+
