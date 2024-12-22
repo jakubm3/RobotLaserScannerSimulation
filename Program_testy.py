@@ -1,6 +1,7 @@
 import pytest
 from PIL import Image
-from Program import Point, Line, LoadParameters, OutOfRangeError, DrawLine
+from Program import (Point, Line, LoadParameters,
+                     OutOfRangeError, DrawLine, FindObstacle)
 
 
 def test_point_integer():
@@ -158,3 +159,23 @@ def test_drawline_out_of_bounds():
     for point in line.LinePoints():
         if 0 <= point.x <= width and 0 <= point.y <= height:
             assert pixels[point.x, point.y] == (255, 0, 0)
+
+
+def test_find_obstacle_found():
+    image = Image.new("RGB", (100, 100), "white")
+    pixels = image.load()
+    pixels[50, 50] = (0, 0, 0)
+    start_point = Point(0, 0)
+    end_point = Point(100, 100)
+    line = Line(start_point, end_point)
+    obstacle = FindObstacle(image, line)
+    assert obstacle == Point(50, 50)
+
+
+def test_find_obstacle_not_found():
+    image = Image.new("RGB", (100, 100), "white")
+    start_point = Point(0, 0)
+    end_point = Point(100, 100)
+    line = Line(start_point, end_point)
+    obstacle = FindObstacle(image, line)
+    assert obstacle is None
