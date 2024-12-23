@@ -70,8 +70,8 @@ def test_line_bresenham_reverse():
     point2 = Point(1, 1)
     line = Line(point1, point2)
     line_points = line.LinePoints()
-    assert line_points == [Point(5, 5), Point(4, 4), Point(3, 3),
-                           Point(2, 2), Point(1, 1)]
+    assert line_points == [Point(1, 1), Point(2, 2), Point(3, 3),
+                           Point(4, 4), Point(5, 5)]
 
 
 def test_line_bresenham_vertical_reverse():
@@ -79,8 +79,8 @@ def test_line_bresenham_vertical_reverse():
     point2 = Point(1, 1)
     line = Line(point1, point2)
     line_points = line.LinePoints()
-    assert line_points == [Point(1, 5), Point(1, 4), Point(1, 3),
-                           Point(1, 2), Point(1, 1)]
+    assert line_points == [Point(1, 1), Point(1, 2), Point(1, 3),
+                           Point(1, 4), Point(1, 5)]
 
 
 def test_line_bresenham_single_point():
@@ -96,8 +96,8 @@ def test_line_bresenham_horizontal_negative():
     point2 = Point(1, 1)
     line = Line(point1, point2)
     line_points = line.LinePoints()
-    assert line_points == [Point(5, 1), Point(4, 1), Point(3, 1),
-                           Point(2, 1), Point(1, 1)]
+    assert line_points == [Point(1, 1), Point(2, 1), Point(3, 1),
+                           Point(4, 1), Point(5, 1)]
 
 
 def test_load_parameters():

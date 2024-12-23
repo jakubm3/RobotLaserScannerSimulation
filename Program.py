@@ -35,33 +35,37 @@ class Line:
         self.points = []
 
     def LinePoints(self):
-        distance_x = abs(self.end.x - self.start.x)
-        distance_y = abs(self.end.y - self.start.y)
         x1, y1 = self.start.x, self.start.y
         x2, y2 = self.end.x, self.end.y
-        step_x = 1 if x1 < x2 else -1
+
+        distance_x = abs(x2 - x1)
+        distance_y = abs(y2 - y1)
+
+        steep = distance_y > distance_x
+
+        if steep:
+            x1, y1 = y1, x1
+            x2, y2 = y2, x2
+            distance_x, distance_y = distance_y, distance_x
+
+        if x1 > x2:
+            x1, x2 = x2, x1
+            y1, y2 = y2, y1
+
+        error = distance_x // 2
+        y0 = y1
         step_y = 1 if y1 < y2 else -1
 
-        if distance_x == 0:
-            for y in range(y1, y2+step_y, step_y):
-                self.points.append(Point(x1, y))
-            return self.points
-
-        inverted_axes = distance_y > distance_x
-        if inverted_axes:
-            distance_x, distance_y = distance_y, distance_x
-        error = 2 * distance_y - distance_x
-        y0 = y1
-
-        for x in range(x1, x2+step_x, step_x):
-            if inverted_axes:
+        for x in range(x1, x2 + 1):
+            if steep:
                 self.points.append(Point(y0, x))
             else:
                 self.points.append(Point(x, y0))
-            if error > 0:
+
+            error -= distance_y
+            if error < 0:
                 y0 += step_y
-                error -= 2 * distance_x
-            error += 2 * distance_y
+                error += distance_x
         return self.points
 
 
