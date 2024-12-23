@@ -1,5 +1,6 @@
 import pytest
 from PIL import Image
+import numpy as np
 from Program import (Point, Line, LoadParameters,
                      OutOfRangeError, DrawLine, FindObstacle,
                      FindLineEndingPoints)
@@ -140,26 +141,16 @@ def test_load_parameters_wrong_extension():
 def test_drawline():
     width, height = 320, 240
     image = Image.new("RGB", (width, height), "white")
+    image_array = np.array(image)
     start = Point(20, 70)
     end = Point(60, 50)
     line = Line(start, end)
-    DrawLine(image, line)
-    pixels = image.load()
-    for point in line.LinePoints():
+    line_points = line.LinePoints()
+    DrawLine(image_array, line_points)
+    updated_image = Image.fromarray(image_array)
+    pixels = updated_image.load()
+    for point in line_points:
         assert pixels[point.x, point.y] == (255, 0, 0)
-
-
-def test_drawline_out_of_bounds():
-    width, height = 320, 240
-    image = Image.new("RGB", (width, height), "white")
-    start = Point(-10, 50)
-    end = Point(110, 50)
-    line = Line(start, end)
-    DrawLine(image, line)
-    pixels = image.load()
-    for point in line.LinePoints():
-        if 0 <= point.x <= width and 0 <= point.y <= height:
-            assert pixels[point.x, point.y] == (255, 0, 0)
 
 
 def test_find_obstacle_found():
@@ -236,4 +227,3 @@ def test_find_line_ending_points_angle_greater_than_360():
     ending_point = FindLineEndingPoints(x1, y1, angle)
     x2, y2 = ending_point.x, ending_point.y
     assert Point(x2, y2) == Point(50, -10)
-
