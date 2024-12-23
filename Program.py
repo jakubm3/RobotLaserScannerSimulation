@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw
+from PIL import Image
 import numpy as np
 import math
 
@@ -41,38 +41,29 @@ class Line:
         distance_x = abs(x2 - x1)
         distance_y = abs(y2 - y1)
 
-        steep = distance_y > distance_x
-
-        if steep:
-            x1, y1 = y1, x1
-            x2, y2 = y2, x2
-            distance_x, distance_y = distance_y, distance_x
-
-        if x1 > x2:
-            x1, x2 = x2, x1
-            y1, y2 = y2, y1
-
-        error = distance_x // 2
-        y0 = y1
+        step_x = 1 if x1 < x2 else -1
         step_y = 1 if y1 < y2 else -1
+        error = distance_x - distance_y
 
-        for x in range(x1, x2 + 1):
-            if steep:
-                self.points.append(Point(y0, x))
-            else:
-                self.points.append(Point(x, y0))
-
-            error -= distance_y
-            if error < 0:
-                y0 += step_y
+        while True:
+            self.points.append(Point(x1, y1))
+            if x1 == x2 and y1 == y2:
+                break
+            e2 = 2 * error
+            if e2 > -distance_y:
+                error -= distance_y
+                x1 += step_x
+            if e2 < distance_x:
                 error += distance_x
+                y1 += step_y
         return self.points
 
 
-def LoadImage(image_path):
+def LoadImageWithArray(image_path):
     if not image_path.endswith(".png"):
         raise WrongExtensionError("Wrong file extension")
-    return Image.open(image_path)
+    image = Image.open(image_path)
+    return image, np.array(image)
 
 
 def LoadParameters(file_path):
@@ -93,36 +84,51 @@ def LoadParameters(file_path):
     return starting_point, int(angle)
 
 
-def DrawLine(image, line):
-    width, height = image.size
-    draw = ImageDraw.Draw(image)
-    for point in line.LinePoints():
-        if point.x in range(0, width+1) and point.y in range(0, height+1):
-            draw.point((point.x, point.y), fill="red")
-
-
 def FindObstacle(image, line):
-    image_array = np.array(image)
-    height, width, _ = image_array.shape
+    image_array = np.array(image.convert("RGB"))
+    height, width = image_array.shape[:2]
     for point in line.LinePoints():
         if 0 <= point.x < width and 0 <= point.y < height:
-            if np.all(image_array[point.y, point.x][:3] == [0, 0, 0]):
+            if (image_array[point.y, point.x] == [0, 0, 0]).all():
                 return point
     return None
 
 
+def DrawLine(image_array, line_points, line_length=60):
+    for point in line_points[:line_length]:
+        image_array[point.y, point.x] = [255, 0, 0]
+
+
 def FindLineEndingPoints(x1, y1, angle, length=60):
-    angle = int(angle)
-    if angle > 360:
-        round_angles = angle // 360
-        angle -= 360 * round_angles
-    elif angle < 0:
-        raise ValueError("Angle has to be positive")
+    angle = int(angle) % 360
     angle_rad = math.radians(angle)
     x2 = x1 + length * math.cos(angle_rad)
     y2 = y1 - length * math.sin(angle_rad)
-    return Point(round(x2), round(y2))
+    return Point(int(x2), int(y2))
 
 
-def CalculateDistance(point1, point2):
-    return math.sqrt((point1.x - point2.x)**2 + (point1.y - point2.y)**2)
+def SimulateLaserScanner(image_path, params_path):
+    image, image_array = LoadImageWithArray(image_path)
+    start_point, base_angle = LoadParameters(params_path)
+    line_lengths = []
+    line_angles = [base_angle - 90 + 10 * i for i in range(19)]
+
+    for angle in line_angles:
+        end_point = FindLineEndingPoints(
+            start_point.x, start_point.y, angle)
+        line = Line(start_point, end_point)
+        line_points = line.LinePoints()
+        line_length = 0
+        obstacle = FindObstacle(image, line)
+
+        for point in line_points:
+            if 0 <= point.x < 320 and 0 <= point.y < 240:
+                if point == obstacle:
+                    break
+                line_length += 1
+            else:
+                break
+        line_lengths.append(line_length)
+        DrawLine(image_array, line_points, line_length)
+
+    return image_array, line_lengths

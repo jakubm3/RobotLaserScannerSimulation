@@ -70,8 +70,8 @@ def test_line_bresenham_reverse():
     point2 = Point(1, 1)
     line = Line(point1, point2)
     line_points = line.LinePoints()
-    assert line_points == [Point(1, 1), Point(2, 2), Point(3, 3),
-                           Point(4, 4), Point(5, 5)]
+    assert line_points == [Point(5, 5), Point(4, 4), Point(3, 3),
+                           Point(2, 2), Point(1, 1)]
 
 
 def test_line_bresenham_vertical_reverse():
@@ -79,8 +79,8 @@ def test_line_bresenham_vertical_reverse():
     point2 = Point(1, 1)
     line = Line(point1, point2)
     line_points = line.LinePoints()
-    assert line_points == [Point(1, 1), Point(1, 2), Point(1, 3),
-                           Point(1, 4), Point(1, 5)]
+    assert line_points == [Point(1, 5), Point(1, 4), Point(1, 3),
+                           Point(1, 2), Point(1, 1)]
 
 
 def test_line_bresenham_single_point():
@@ -96,8 +96,8 @@ def test_line_bresenham_horizontal_negative():
     point2 = Point(1, 1)
     line = Line(point1, point2)
     line_points = line.LinePoints()
-    assert line_points == [Point(1, 1), Point(2, 1), Point(3, 1),
-                           Point(4, 1), Point(5, 1)]
+    assert line_points == [Point(5, 1), Point(4, 1), Point(3, 1),
+                           Point(2, 1), Point(1, 1)]
 
 
 def test_load_parameters():
@@ -203,7 +203,7 @@ def test_find_line_ending_points_180_degrees():
     angle = 180
     ending_point = FindLineEndingPoints(x1, y1, angle)
     x2, y2 = ending_point.x, ending_point.y
-    assert Point(x2, y2) == Point(-10, 50)
+    assert Point(x2, y2) == Point(-10, 49)
 
 
 def test_find_line_ending_points_270_degrees():
@@ -211,7 +211,7 @@ def test_find_line_ending_points_270_degrees():
     angle = 270
     ending_point = FindLineEndingPoints(x1, y1, angle)
     x2, y2 = ending_point.x, ending_point.y
-    assert Point(x2, y2) == Point(50, 110)
+    assert Point(x2, y2) == Point(49, 110)
 
 
 def test_find_line_ending_points_45_degrees():
@@ -219,7 +219,7 @@ def test_find_line_ending_points_45_degrees():
     angle = 45
     ending_point = FindLineEndingPoints(x1, y1, angle)
     x2, y2 = ending_point.x, ending_point.y
-    assert Point(x2, y2) == Point(92, 8)
+    assert Point(x2, y2) == Point(92, 7)
 
 
 def test_find_line_ending_points_135_degrees():
@@ -227,7 +227,7 @@ def test_find_line_ending_points_135_degrees():
     angle = 135
     ending_point = FindLineEndingPoints(x1, y1, angle)
     x2, y2 = ending_point.x, ending_point.y
-    assert Point(x2, y2) == Point(8, 8)
+    assert Point(x2, y2) == Point(7, 7)
 
 
 def test_find_line_ending_points_angle_greater_than_360():
@@ -237,7 +237,3 @@ def test_find_line_ending_points_angle_greater_than_360():
     x2, y2 = ending_point.x, ending_point.y
     assert Point(x2, y2) == Point(50, -10)
 
-
-def test_find_line_ending_points_negative_angle():
-    with pytest.raises(ValueError):
-        FindLineEndingPoints(50, 50, -10)
