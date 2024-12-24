@@ -89,6 +89,15 @@ def FindObstacle(image, line):
     height, width = image_array.shape[:2]
     for point in line.LinePoints():
         if 0 <= point.x < width and 0 <= point.y < height:
+            neighbors = [
+                (point.x - 1, point.y), (point.x + 1, point.y),
+                (point.x, point.y - 1), (point.x, point.y + 1),
+                (point.x - 1, point.y - 1), (point.x + 1, point.y + 1),
+                (point.x - 1, point.y + 1), (point.x + 1, point.y - 1)
+            ]
+            for nx, ny in neighbors:
+                if (image_array[ny, nx] == [0, 0, 0]).all():
+                    return point
             if (image_array[point.y, point.x] == [0, 0, 0]).all():
                 return point
     return None
@@ -124,6 +133,7 @@ def SimulateLaserScanner(image_path, params_path):
         for point in line_points:
             if 0 <= point.x < 320 and 0 <= point.y < 240:
                 if point == obstacle:
+                    line_length += 1
                     break
                 line_length += 1
             else:
