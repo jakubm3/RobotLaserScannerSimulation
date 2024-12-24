@@ -1,7 +1,7 @@
 import pytest
 from PIL import Image
 import numpy as np
-from Program import (Point, Line, LoadParameters,
+from Main import (Point, Line, LoadParameters,
                      OutOfRangeError, DrawLine, FindObstacle,
                      FindLineEndingPoints)
 
