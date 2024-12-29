@@ -4,7 +4,7 @@ import numpy as np
 from Errors import WrongExtensionError, OutOfRangeError
 from DataLoad import (LoadImageWithArray, LoadParameters)
 from Functions import (Point, Line, DrawLine, FindObstacle,
-                       FindLineEndingPoints)
+                       FindLineEndingPoints, SimulateLaserScanner)
 
 
 def test_point_integer():
@@ -121,9 +121,9 @@ def test_line_bresenham_horizontal_negative():
 
 def test_load_parameters():
     result = LoadParameters("Pliki testowe/poprawne_dane.txt")
-    assert result[1] == 60
-    assert result[0].x == 30
-    assert result[0].y == 50
+    assert result[1] == 180
+    assert result[0].x == 160
+    assert result[0].y == 120
 
 
 def test_load_parameters_filenotfound():
@@ -294,3 +294,21 @@ def test_find_line_ending_points_negative_angle():
     assert isinstance(end_point, Point)
     assert end_point.x != 50
     assert end_point.y != 50
+
+
+def test_simulate_laser_scanner_empty_env():
+    image_path = "Pliki testowe/empty.png"
+    params_file = "Pliki testowe/poprawne_dane.txt"
+    lengths = SimulateLaserScanner(str(image_path),
+                                   str(params_file))[1]
+    assert len(lengths) == 19
+
+
+def test_simulate_laser_scanner_with_obstacle():
+    image_path = "Pliki testowe/przeszkoda.png"
+    params_file = "Pliki testowe/poprawne_dane.txt"
+
+    lengths = SimulateLaserScanner(str(image_path),
+                                   str(params_file))[1]
+    assert len(lengths) == 19
+    assert min(lengths) < 60
