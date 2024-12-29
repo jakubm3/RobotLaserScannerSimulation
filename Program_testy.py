@@ -65,6 +65,15 @@ def test_line_bresenham_vertical():
                            Point(1, 4), Point(1, 5)]
 
 
+def test_line_bresenham_diagonal():
+    point1 = Point(0, 0)
+    point2 = Point(3, 3)
+    line = Line(point1, point2)
+    line_points = line.LinePoints()
+    assert line_points == [Point(0, 0), Point(1, 1),
+                           Point(2, 2), Point(3, 3)]
+
+
 def test_line_bresenham_shallow():
     point1 = Point(1, 1)
     point2 = Point(7, 3)
