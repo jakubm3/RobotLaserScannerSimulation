@@ -1,9 +1,9 @@
 import pytest
 from PIL import Image
 import numpy as np
-from Main import (Point, Line, LoadParameters,
-                     OutOfRangeError, DrawLine, FindObstacle,
-                     FindLineEndingPoints)
+from Functions import (Point, Line, LoadParameters,
+                       OutOfRangeError, DrawLine, FindObstacle,
+                       FindLineEndingPoints)
 
 
 def test_point_integer():

@@ -9,19 +9,49 @@ from PIL import Image
 def FindObstacle(image, line):
     image_array = np.array(image.convert("RGB"))
     height, width = image_array.shape[:2]
+    prev_point = None
+
     for point in line.LinePoints():
         if 0 <= point.x < width and 0 <= point.y < height:
-            neighbors = [
-                (point.x - 1, point.y), (point.x + 1, point.y),
-                (point.x, point.y - 1), (point.x, point.y + 1),
-                (point.x - 1, point.y - 1), (point.x + 1, point.y + 1),
-                (point.x - 1, point.y + 1), (point.x + 1, point.y - 1)
-            ]
-            for nx, ny in neighbors:
-                if (image_array[ny, nx] == [0, 0, 0]).all():
-                    return point
             if (image_array[point.y, point.x] == [0, 0, 0]).all():
                 return point
+
+            neighbors = [
+                (point.x - 1, point.y),
+                (point.x + 1, point.y),
+                (point.x, point.y - 1),
+                (point.x, point.y + 1)
+            ]
+
+            for nx, ny in neighbors:
+                if 0 <= nx < width and 0 <= ny < height:
+                    if (image_array[ny, nx] == [0, 0, 0]).all():
+                        return point
+
+            if prev_point is not None:
+                dx = point.x - prev_point.x
+                dy = point.y - prev_point.y
+
+                if abs(dx) == 1 and abs(dy) == 1:
+                    corner1 = (prev_point.x, point.y)
+                    corner2 = (point.x, prev_point.y)
+
+                    if (0 <= corner1[0] < width and
+                            0 <= corner1[1] < height and
+                            0 <= corner2[0] < width and
+                            0 <= corner2[1] < height):
+                        corner1_black = (
+                            image_array[corner1[1], corner1[0]] == [0, 0, 0]
+                        ).all()
+                        corner2_black = (
+                            image_array[corner2[1], corner2[0]] == [0, 0, 0]
+                        ).all()
+
+                        if corner1_black and corner2_black:
+                            return prev_point
+
+            prev_point = point
+
     return None
 
 
