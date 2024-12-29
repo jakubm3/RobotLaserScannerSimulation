@@ -287,3 +287,10 @@ def test_find_line_ending_points_angle_greater_than_360():
     ending_point = FindLineEndingPoints(x1, y1, angle)
     x2, y2 = ending_point.x, ending_point.y
     assert Point(x2, y2) == Point(50, -10)
+
+
+def test_find_line_ending_points_negative_angle():
+    end_point = FindLineEndingPoints(50, 50, -45)
+    assert isinstance(end_point, Point)
+    assert end_point.x != 50
+    assert end_point.y != 50
