@@ -147,8 +147,8 @@ def test_load_parameters_not_enough_data():
 
 
 def test_load_parameters_wrong_extension():
-    with pytest.raises(ValueError):
-        LoadParameters("Pliki testowe/wrong_extension.txt")
+    with pytest.raises(WrongExtensionError):
+        LoadParameters("Pliki testowe/wrong_extension.pdf")
 
 
 def test_load_image_valid(tmp_path):
@@ -163,7 +163,7 @@ def test_load_image_valid(tmp_path):
 
 
 def test_load_image_wrong_extension():
-    with pytest.raises(ValueError):
+    with pytest.raises(WrongExtensionError):
         LoadParameters("Pliki testowe/wrong_extension.jpg")
 
 
@@ -203,6 +203,32 @@ def test_find_obstacle_not_found():
     start_point = Point(0, 0)
     end_point = Point(100, 100)
     line = Line(start_point, end_point)
+    obstacle = FindObstacle(image, line)
+    assert obstacle is None
+
+
+def test_find_obstacle_edge_case():
+    image = Image.new("RGB", (100, 100), "white")
+    pixels = image.load()
+    pixels[99, 99] = (0, 0, 0)
+    line = Line(Point(0, 0), Point(99, 99))
+    obstacle = FindObstacle(image, line)
+    assert obstacle == Point(99, 99)
+
+
+def test_find_obstacle_diagonal_neighbor():
+    image = Image.new("RGB", (100, 100), "white")
+    pixels = image.load()
+    line = Line(Point(0, 0), Point(5, 5))
+    pixels[3, 4] = (0, 0, 0)
+    pixels[4, 3] = (0, 0, 0)
+    obstacle = FindObstacle(image, line)
+    assert obstacle == Point(3, 3)
+
+
+def test_find_obstacle_out_of_bounds():
+    image = Image.new("RGB", (100, 100), "white")
+    line = Line(Point(-10, -10), Point(-5, -5))
     obstacle = FindObstacle(image, line)
     assert obstacle is None
 
