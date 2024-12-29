@@ -12,6 +12,14 @@ def test_point_integer():
     assert point.y == 2
 
 
+def test_point_equality():
+    point1 = Point(1, 1)
+    point2 = Point(1, 1)
+    point3 = Point(2, 2)
+    assert point1 == point2
+    assert point1 != point3
+
+
 def test_point_not_integer():
     with pytest.raises(TypeError):
         Point('a', 3.5)

@@ -59,12 +59,15 @@ def DrawLine(image_array, line_points, line_length=60):
     for point in line_points[:line_length]:
         image_array[point.y, point.x] = [255, 0, 0]
 
+    return None
+
 
 def FindLineEndingPoints(x1, y1, angle, length=60):
     angle = int(angle) % 360
     angle_rad = math.radians(angle)
     x2 = x1 + length * math.cos(angle_rad)
     y2 = y1 - length * math.sin(angle_rad)
+
     return Point(int(x2), int(y2))
 
 
@@ -123,3 +126,5 @@ def Main():
         print(f"Error: {e}")
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
+
+    return None
