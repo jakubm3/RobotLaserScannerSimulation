@@ -1,8 +1,9 @@
 import pytest
 from PIL import Image
 import numpy as np
-from Functions import (Point, Line, LoadParameters,
-                       OutOfRangeError, DrawLine, FindObstacle,
+from Errors import WrongExtensionError, OutOfRangeError
+from DataLoad import (LoadImageWithArray, LoadParameters)
+from Functions import (Point, Line, DrawLine, FindObstacle,
                        FindLineEndingPoints)
 
 
@@ -145,14 +146,30 @@ def test_load_parameters_not_enough_data():
         LoadParameters("Pliki testowe/brak_danych.txt")
 
 
+def test_load_parameters_wrong_extension():
+    with pytest.raises(ValueError):
+        LoadParameters("Pliki testowe/wrong_extension.txt")
+
+
+def test_load_image_valid(tmp_path):
+    test_image = Image.new('RGB', (320, 240), color='white')
+    image_path = tmp_path / "test.png"
+    test_image.save(image_path)
+
+    image, array = LoadImageWithArray(str(image_path))
+    assert isinstance(image, Image.Image)
+    assert isinstance(array, np.ndarray)
+    assert array.shape == (240, 320, 3)
+
+
 def test_load_image_wrong_extension():
     with pytest.raises(ValueError):
         LoadParameters("Pliki testowe/wrong_extension.jpg")
 
 
-def test_load_parameters_wrong_extension():
-    with pytest.raises(ValueError):
-        LoadParameters("Pliki testowe/wrong_extension.txt")
+def test_load_image_nonexistent():
+    with pytest.raises(FileNotFoundError):
+        LoadImageWithArray("nonexistent.png")
 
 
 def test_drawline():
