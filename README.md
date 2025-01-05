@@ -43,27 +43,11 @@ The project implements a robot laser scanner simulation for distance measurement
 
 #### Core Components
 1. **Point Class**
-```python
-class Point:
-    def __init__(self, x, y):
-        if not isinstance(x, int) or not isinstance(y, int):
-            raise TypeError("Coordinates must be integers")
-        self.x = x
-        self.y = y
-```
    - Represents 2D coordinates
    - Validates integer coordinates
    - Implements equality comparison
 
 2. **Line Class**
-```python
-class Line:
-    def __init__(self, start: Point, end: Point):
-        if not isinstance(start, Point) or not isinstance(end, Point):
-            raise TypeError("Line must be defined by two points")
-        self.start = start
-        self.end = end
-```
    - Implements Bresenham's algorithm
    - Generates points along the line path
    - Handles various line orientations
@@ -81,16 +65,6 @@ class Line:
    - Correctly handles all line orientations
 
 2. **Obstacle Detection**
-```python
-def FindObstacle(image, line):
-    image_array = np.array(image.convert("RGB"))
-    height, width = image_array.shape[:2]
-    
-    for point in line.LinePoints():
-        if 0 <= point.x < width and 0 <= point.y < height:
-            if (image_array[point.y, point.x] == [0, 0, 0]).all():
-                return point
-```
    - Checks for black pixels (RGB: 0,0,0) along beam path
    - Includes diagonal neighbor checking
    - Returns first detected obstacle point
@@ -205,27 +179,11 @@ Projekt implementuje symulator skanera laserowego robota służący do pomiaru o
 
 #### Główne komponenty
 1. **Klasa Point**
-```python
-class Point:
-    def __init__(self, x, y):
-        if not isinstance(x, int) or not isinstance(y, int):
-            raise TypeError("Coordinates must be integers")
-        self.x = x
-        self.y = y
-```
    - Reprezentuje współrzędne 2D
    - Waliduje współrzędne całkowite
    - Implementuje porównywanie równości
 
 2. **Klasa Line**
-```python
-class Line:
-    def __init__(self, start: Point, end: Point):
-        if not isinstance(start, Point) or not isinstance(end, Point):
-            raise TypeError("Line must be defined by two points")
-        self.start = start
-        self.end = end
-```
    - Implementuje algorytm Bresenhama
    - Generuje punkty wzdłuż ścieżki linii
    - Obsługuje różne orientacje linii
@@ -243,16 +201,6 @@ class Line:
    - Poprawnie obsługuje wszystkie orientacje linii
 
 2. **Wykrywanie przeszkód**
-```python
-def FindObstacle(image, line):
-    image_array = np.array(image.convert("RGB"))
-    height, width = image_array.shape[:2]
-    
-    for point in line.LinePoints():
-        if 0 <= point.x < width and 0 <= point.y < height:
-            if (image_array[point.y, point.x] == [0, 0, 0]).all():
-                return point
-```
    - Sprawdza czarne piksele (RGB: 0,0,0) wzdłuż ścieżki wiązki
    - Zawiera sprawdzanie sąsiadów po przekątnej
    - Zwraca pierwszy wykryty punkt przeszkody
