@@ -4,14 +4,14 @@ import numpy as np
 from Classes import Point
 
 
-def LoadImageWithArray(image_path):
+def LoadImageWithArray(image_path) -> tuple:
     if not image_path.endswith(".png"):
         raise WrongExtensionError("Wrong file extension")
     image = Image.open(image_path)
     return image, np.array(image)
 
 
-def LoadParameters(file_path):
+def LoadParameters(file_path) -> tuple:
     if not file_path.endswith(".txt"):
         raise WrongExtensionError("Wrong file extension")
     with open(file_path, "r") as handle:

@@ -6,7 +6,7 @@ from Errors import WrongExtensionError, OutOfRangeError
 from PIL import Image
 
 
-def FindObstacle(image, line):
+def FindObstacle(image: Image, line: Line) -> Point:
     image_array = np.array(image.convert("RGB"))
     height, width = image_array.shape[:2]
     prev_point = None
@@ -55,14 +55,14 @@ def FindObstacle(image, line):
     return None
 
 
-def DrawLine(image_array, line_points, line_length=60):
+def DrawLine(image_array, line_points: list, line_length=60) -> None:
     for point in line_points[:line_length]:
         image_array[point.y, point.x] = [255, 0, 0]
 
     return None
 
 
-def FindLineEndingPoints(x1, y1, angle, length=60):
+def FindLineEndingPoints(x1: int, y1: int, angle: int, length=60) -> Point:
     angle = int(angle) % 360
     angle_rad = math.radians(angle)
     x2 = x1 + length * math.cos(angle_rad)
@@ -71,7 +71,7 @@ def FindLineEndingPoints(x1, y1, angle, length=60):
     return Point(int(x2), int(y2))
 
 
-def SimulateLaserScanner(image_path, params_path):
+def SimulateLaserScanner(image_path: str, params_path: str) -> tuple:
     image, image_array = LoadImageWithArray(image_path)
     start_point, base_angle = LoadParameters(params_path)
     line_lengths = []
@@ -99,7 +99,7 @@ def SimulateLaserScanner(image_path, params_path):
     return image_array, line_lengths
 
 
-def Main():
+def Main() -> None:
     environment_path = "otoczenie.png"
     params_path = "parametry.txt"
 

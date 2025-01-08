@@ -5,7 +5,7 @@ class Point:
         self.x = x
         self.y = y
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         if isinstance(other, Point):
             return self.x == other.x and self.y == other.y
         return False
@@ -19,7 +19,7 @@ class Line:
         self.end = end
         self.points = []
 
-    def LinePoints(self):
+    def LinePoints(self) -> list:
         x1, y1 = self.start.x, self.start.y
         x2, y2 = self.end.x, self.end.y
 
